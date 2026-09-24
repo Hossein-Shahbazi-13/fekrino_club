@@ -1,0 +1,6 @@
+{
+  "name": "FEKRI NO - Mafia Role Distribution",
+  "description": "سامانه توزیع نقش سناریوهای بازپرس، تکاور و نماینده برای کافه رستوران و گیم فکری نو (FEKRI NO) با تم چوب و نوستالژی",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

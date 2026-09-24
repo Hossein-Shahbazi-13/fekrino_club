@@ -1,0 +1,71 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'hosseinshahbazi830@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidPlayer(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.totalGames is number && data.totalGames >= 0 &&
+             data.totalScore is number &&
+             data.bestPlayerCount is number && data.bestPlayerCount >= 0;
+    }
+
+    function isValidMatch(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.scenarioType in ['INSPECTOR', 'COMMANDO', 'REPRESENTATIVE'] &&
+             data.playerCount is number && data.playerCount >= 4 && data.playerCount <= 30 &&
+             data.moderatorNameFa is string && data.moderatorNameFa.size() > 0 && data.moderatorNameFa.size() <= 100 &&
+             data.outcome in ['CITIZEN_WIN', 'MAFIA_WIN', 'DRAW'];
+    }
+
+    // Players Collection: Publicly readable for leaderboard and dossiers
+    match /players/{playerId} {
+      allow get, list: if true;
+      allow create, update: if isValidId(playerId) && isValidPlayer(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // Matches Collection: Publicly readable for cafe game archive
+    match /matches/{matchId} {
+      allow get, list: if true;
+      allow create: if isValidId(matchId) && isValidMatch(incoming());
+      allow update: if isValidId(matchId) && isValidMatch(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+  }
+}

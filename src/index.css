@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+
+  /* Safe Area Utilities for Mobile Notches & Gesture Bars */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 1rem);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0.5rem);
+  }
+
+  /* Warm Mahogany & Cafe Wood Tavern Backgrounds */
+  .bg-wood-pattern {
+    background-color: #170905;
+    background-image: 
+      radial-gradient(ellipse at 50% 15%, rgba(95, 46, 22, 0.5) 0%, rgba(20, 8, 4, 0.96) 70%),
+      radial-gradient(circle at 100% 100%, rgba(48, 22, 11, 0.35) 0%, transparent 60%);
+  }
+
+  .bg-wood-card {
+    background: linear-gradient(180deg, #241108 0%, #190b05 100%);
+    border: 1px solid rgba(180, 83, 9, 0.35);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .bg-wood-inset {
+    background: #140804;
+    border: 1px solid rgba(82, 51, 33, 0.5);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Night Mode Deep Indigo Overrides */
+  .theme-night-indigo .bg-wood-pattern {
+    background-color: #060913;
+    background-image: 
+      radial-gradient(ellipse at 50% 0%, rgba(30, 48, 110, 0.4) 0%, rgba(6, 9, 19, 0.98) 75%),
+      radial-gradient(circle at 100% 100%, rgba(20, 32, 75, 0.2) 0%, transparent 60%);
+  }
+
+  .theme-night-indigo .bg-wood-card {
+    background: linear-gradient(180deg, #101628 0%, #0c111e 100%);
+    border: 1px solid rgba(99, 102, 241, 0.22);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .theme-night-indigo .bg-wood-inset {
+    background: #080c16;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Shimmer Skeleton Animation */
+  .skeleton-shimmer {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0.07) 50%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite ease-in-out;
+  }
+
+  /* Refined, taste-based accent accents (no cheap blinding neon) */
+  .accent-gold {
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
+    border-color: rgba(245, 158, 11, 0.5) !important;
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 30s linear infinite;
+}
+
+@keyframes flipIn {
+  0% {
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}
+
+.animate-flipIn {
+  animation: flipIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(26, 18, 14, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 100, 75, 0.5);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 150, 110, 0.8);
+}

@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "Player": {
+      "title": "Player",
+      "description": "Registered player record with game stats, rank, and score.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the player.",
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "description": "Player full name or nickname.",
+          "maxLength": 100
+        },
+        "phone": {
+          "type": "string",
+          "description": "Player phone number (masked on public views).",
+          "maxLength": 20
+        },
+        "totalGames": {
+          "type": "number",
+          "description": "Total number of completed games."
+        },
+        "totalScore": {
+          "type": "number",
+          "description": "Cumulative score points."
+        },
+        "bestPlayerCount": {
+          "type": "number",
+          "description": "Number of times awarded best player."
+        },
+        "avatarColor": {
+          "type": "string",
+          "description": "Tailwind color gradient class for avatar."
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update."
+        }
+      },
+      "required": ["id", "name", "totalGames", "totalScore", "bestPlayerCount"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "Official cafe match archive record.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the match.",
+          "maxLength": 128
+        },
+        "scenarioType": {
+          "type": "string",
+          "enum": ["INSPECTOR", "COMMANDO", "REPRESENTATIVE"],
+          "description": "Scenario played in the match."
+        },
+        "playerCount": {
+          "type": "number",
+          "description": "Total players count in the match."
+        },
+        "dateFa": {
+          "type": "string",
+          "description": "Persian date string of the match."
+        },
+        "timeFa": {
+          "type": "string",
+          "description": "Persian time string of the match."
+        },
+        "moderatorNameFa": {
+          "type": "string",
+          "description": "Name of the game moderator.",
+          "maxLength": 100
+        },
+        "outcome": {
+          "type": "string",
+          "enum": ["CITIZEN_WIN", "MAFIA_WIN", "DRAW"],
+          "description": "Outcome result of the match."
+        },
+        "bestPlayerName": {
+          "type": "string",
+          "description": "Name of the best player elected in this match.",
+          "maxLength": 100
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when the match was recorded."
+        }
+      },
+      "required": ["id", "scenarioType", "playerCount", "dateFa", "moderatorNameFa", "outcome"]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized game moderator / cafe administrator.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "UID or ID of the admin.",
+          "maxLength": 128
+        },
+        "email": {
+          "type": "string",
+          "description": "Email of the admin user."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["MODERATOR", "SUPER_ADMIN"],
+          "description": "Role level of the administrator."
+        }
+      },
+      "required": ["id", "role"]
+    }
+  },
+  "firestore": {
+    "/players/{playerId}": {
+      "schema": "Player",
+      "description": "Public and official leaderboard player records."
+    },
+    "/matches/{matchId}": {
+      "schema": "Match",
+      "description": "Archived official cafe game records."
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Administrative role records for moderators."
+    }
+  }
+}
